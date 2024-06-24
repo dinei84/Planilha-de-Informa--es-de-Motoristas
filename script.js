@@ -32,7 +32,7 @@ document.getElementById('backBtn').addEventListener('click', function() {
     document.getElementById('table-container').style.display = 'none';
 });
 
-document.getElementById('clearBtn').addEventListener('click',function(){
+document.getElementById('clearBtn').addEventListener('click', function() {
     document.getElementById('driver').value = '';
     document.getElementById('phone').value = '';
     document.getElementById('owner').value = '';
@@ -46,6 +46,13 @@ document.getElementById('searchInput').addEventListener('input', function() {
                driver.owner.toLowerCase().includes(searchTerm);
     });
     renderTable(filteredDrivers);
+});
+
+document.getElementById('downloadBtn').addEventListener('click', function() {
+    const wb = XLSX.utils.book_new();
+    const ws = XLSX.utils.json_to_sheet(drivers);
+    XLSX.utils.book_append_sheet(wb, ws, "Motoristas");
+    XLSX.writeFile(wb, 'motoristas.xlsx');
 });
 
 function sortAndRenderTable() {
@@ -112,3 +119,9 @@ function deleteDriver(index) {
     drivers.splice(index, 1);
     sortAndRenderTable();
 }
+
+// Máscara para o input de telefone
+document.getElementById('phone').addEventListener('input', function(e) {
+    const x = e.target.value.replace(/\D/g, '').match(/(\d{0,2})(\d{0,5})(\d{0,4})/);
+    e.target.value = !x[2] ? x[1] : `(${x[1]}) ${x[2]}${x[3] ? '-' + x[3] : ''}`;
+});
