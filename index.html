@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planilha de Motoristas</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div id="form-container">
+            <h1>Cadastro de Motorista</h1>
+            <form id="driverForm">
+                <label for="driver">Motorista:</label>
+                <input type="text" id="driver" name="driver" required>
+                
+                <label for="phone">Telefone:</label>
+                <input type="text" id="phone" name="phone" required>
+                
+                <label for="owner">Frotista (Proprietário):</label>
+                <input type="text" id="owner" name="owner" required>
+                
+                <button type="button" id="submitBtn">Adicionar à Planilha</button>
+                <button type="button" id="clearBtn">Limpar</button>
+            </form>
+            <button id="viewListBtn">Ver Listagem</button>
+        </div>
+        
+        <div id="table-container" style="display: none;">
+            <h1>Planilha de Motoristas</h1>
+            <input type="text" id="searchInput" placeholder="Pesquisar...">
+            <table id="driversTable">
+                <thead>
+                    <tr>
+                        <th>Motorista</th>
+                        <th>Telefone</th>
+                        <th>Frotista (Proprietário)</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Dados serão inseridos aqui -->
+                </tbody>
+            </table>
+            <button id="backBtn">Voltar</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
