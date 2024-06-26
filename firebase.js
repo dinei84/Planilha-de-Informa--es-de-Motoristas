@@ -3,12 +3,12 @@ import { getFirestore } from "firebase/firestore";
 
 // Substitua os valores de espaço reservado com suas credenciais do Firebase
 const firebaseConfig = {
-  apiKey: "BPFnGCQ7QO_Wd1ekntAUVJ--I-dZNf2nQgaY2tIQFcSunJ-5fs7j3Nu-y-xoU0sOFqfyyS5Knw5F37zCE-grwJc",
-  authDomain: "116710956370.firebaseapp.com",
-  projectId: "SEU_ID_DO_PROJETO",
-  storageBucket: "SEU_ID_DO_PROJETO.appspot.com",
-  messagingSenderId: "SEU_ID_DO_ENVIADOR_DE_MENSAGENS",
-  appId: "SEU_ID_DO_APP"
+  apiKey: "AIzaSyA-2XotqAAWBK9B-a1-LpUNARMyqnzxwWQ",
+  authDomain: "lista-de-contatos-5a54f.firebaseapp.com",
+  projectId: "lista-de-contatos-5a54f",
+  storageBucket: "lista-de-contatos-5a54f.appspot.com",
+  messagingSenderId: "116710956370",
+  appId: "1:116710956370:web:39c58264e21418e1e42e8b"
 };
 
 const app = initializeApp(firebaseConfig);
