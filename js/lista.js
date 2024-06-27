@@ -1,15 +1,16 @@
-const db = firebase.firestore();
 let drivers = [];
 
+// Adiciona evento DOMContentLoaded para carregar dados ao carregar a página
 document.addEventListener('DOMContentLoaded', async function() {
-    const querySnapshot = await db.collection('drivers').get();
-    drivers = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-    sortAndRenderTable();
+    // Chama a função para buscar os dados
+    await getDrivers();
 
+    // Adiciona evento ao botão de voltar
     document.getElementById('backBtn').addEventListener('click', function() {
         window.location.href = 'index.html';
     });
 
+    // Adiciona evento de input para busca
     document.getElementById('searchInput').addEventListener('input', function() {
         const searchTerm = document.getElementById('searchInput').value.toLowerCase();
         const filteredDrivers = drivers.filter(driver => {
@@ -20,6 +21,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         renderTable(filteredDrivers);
     });
 
+    // Adiciona evento ao botão de download
     document.getElementById('downloadBtn').addEventListener('click', function() {
         const wb = XLSX.utils.book_new();
         const ws = XLSX.utils.json_to_sheet(drivers);
@@ -28,6 +30,14 @@ document.addEventListener('DOMContentLoaded', async function() {
     });
 });
 
+// Função para buscar dados do Firestore
+async function getDrivers() {
+    const querySnapshot = await db.collection('drivers').get();
+    drivers = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    sortAndRenderTable();
+}
+
+// Atualiza a função sortAndRenderTable para usar os dados buscados
 function sortAndRenderTable() {
     drivers.sort((a, b) => {
         if (a.driver < b.driver) return -1;
@@ -39,6 +49,7 @@ function sortAndRenderTable() {
     renderTable(drivers);
 }
 
+// Renderiza a tabela com os dados fornecidos
 function renderTable(driversToRender) {
     const tableBody = document.querySelector('#driversTable tbody');
     tableBody.innerHTML = '';
