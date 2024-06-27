@@ -1,6 +1,9 @@
-let drivers = JSON.parse(localStorage.getItem('drivers')) || [];
+const db = firebase.firestore();
+let drivers = [];
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
+    const querySnapshot = await db.collection('drivers').get();
+    drivers = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
     sortAndRenderTable();
 
     document.getElementById('backBtn').addEventListener('click', function() {
@@ -40,7 +43,7 @@ function renderTable(driversToRender) {
     const tableBody = document.querySelector('#driversTable tbody');
     tableBody.innerHTML = '';
 
-    driversToRender.forEach((driverData, index) => {
+    driversToRender.forEach((driverData) => {
         const row = document.createElement('tr');
 
         const driverCell = document.createElement('td');
@@ -61,12 +64,12 @@ function renderTable(driversToRender) {
         const editButton = document.createElement('button');
         editButton.textContent = 'Editar';
         editButton.className = 'edit';
-        editButton.addEventListener('click', () => editDriver(index));
+        editButton.addEventListener('click', () => editDriver(driverData.id));
         actionsCell.appendChild(editButton);
 
         const deleteButton = document.createElement('button');
         deleteButton.textContent = 'Apagar';
-        deleteButton.addEventListener('click', () => deleteDriver(index));
+        deleteButton.addEventListener('click', () => deleteDriver(driverData.id));
         actionsCell.appendChild(deleteButton);
 
         row.appendChild(actionsCell);
@@ -75,14 +78,13 @@ function renderTable(driversToRender) {
     });
 }
 
-function editDriver(index) {
-    const driverData = drivers[index];
-    localStorage.setItem('editIndex', index);
+async function editDriver(id) {
+    localStorage.setItem('editIndex', id);
     window.location.href = 'index.html';
 }
 
-function deleteDriver(index) {
-    drivers.splice(index, 1);
-    localStorage.setItem('drivers', JSON.stringify(drivers));
+async function deleteDriver(id) {
+    await db.collection('drivers').doc(id).delete();
+    drivers = drivers.filter(driver => driver.id !== id);
     sortAndRenderTable();
 }
